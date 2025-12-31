@@ -3,208 +3,333 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>2026 關西冬日祭 - 旅遊手冊</title>
+    <title>2026 Osaka Travel Itinerary</title>
+    <!-- Tailwind CSS for Layout -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Noto Sans JP -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap');
-        
         body {
             font-family: 'Noto Sans JP', sans-serif;
-            background-color: #f9f8f6; /* 和紙色 */
+            background-color: #f9f8f4; /* 和紙色背景 */
             -webkit-tap-highlight-color: transparent;
         }
-
-        .tab-content { display: none; }
+        .japanese-border {
+            border-bottom: 2px solid #af2330; /* 茜色 */
+        }
+        .tab-content { display: none; animation: fadeIn 0.3s ease-in-out; }
         .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* 標籤樣式 */
+        .tag-eat { background-color: #e63946; color: white; } /* 必吃 */
+        .tag-buy { background-color: #f4a261; color: white; } /* 必買 */
+        .tag-must { background-color: #2a9d8f; color: white; } /* 必看/攻略 */
+        .tag-code { background-color: #457b9d; color: white; } /* 預約碼 */
 
-        /* 日式標籤顏色 */
-        .tag-eat { background-color: #ef4444; color: white; } /* 必吃 - 茜色 */
-        .tag-buy { background-color: #f59e0b; color: white; } /* 必買 - 琥珀色 */
-        .tag-must { background-color: #10b981; color: white; } /* 必看 - 抹茶色 */
+        /* 底部導航啟動狀態 */
+        .nav-active { color: #af2330 !important; }
         
-        .nav-active { color: #1e3a8a; border-top: 3px solid #1e3a8a; }
-        
-        /* 輕微卡片陰影 */
-        .card-shadow { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+        /* 卡片設計 */
+        .card { background: white; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
     </style>
 </head>
 <body class="pb-24">
 
-    <!-- Header -->
-    <header class="bg-white border-b border-gray-200 p-4 sticky top-0 z-50">
-        <div class="flex justify-between items-center">
-            <h1 class="text-xl font-bold text-slate-800">🇯🇵 2026 關西冬日祭</h1>
-            <span class="text-xs bg-slate-100 px-2 py-1 rounded-full text-slate-500">v1.0 Mobile</span>
+    <!-- Top Header -->
+    <div class="sticky top-0 z-50 bg-white/90 backdrop-blur-md px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+        <div>
+            <h1 class="text-xl font-bold text-gray-800">2026 Osaka Travel Itinerary</h1>
+            <p class="text-xs text-gray-400">Feb 02 - Feb 06, 2026</p>
         </div>
-    </header>
+        <div class="text-right">
+            <span id="header-weather" class="text-sm font-medium text-red-700 font-bold">3°C ❄️ 大阪</span>
+        </div>
+    </div>
 
     <!-- Main Content Area -->
-    <main class="p-4" id="main-content">
-        
-        <!-- DAY 1 -->
+    <div id="main-container" class="px-4 mt-4">
+
+        <!-- --- DAY 1 --- -->
         <div id="day1" class="tab-content active space-y-4">
-            <div class="flex items-center justify-between bg-blue-50 p-3 rounded-xl border border-blue-100">
-                <div><span class="text-2xl">☁️</span> <span class="font-bold text-blue-800">D1 大阪抵達</span></div>
-                <div class="text-right text-xs text-blue-600">5°C / 12°C<br>降雨率 10%</div>
+            <div class="flex items-center space-x-2 text-red-800 font-bold mb-2">
+                <i class="fa-solid fa-calendar-day"></i><span>DAY 1：大阪抵達 & 臨空城購物</span>
+            </div>
+            
+            <!-- 天氣資訊卡 -->
+            <div class="bg-blue-50 p-3 rounded-xl flex justify-between items-center text-sm border border-blue-100">
+                <span>📍 關西機場 / 難波</span>
+                <span class="font-bold text-blue-800">多雲時晴 5°C <i class="fa-solid fa-cloud-sun"></i></span>
             </div>
 
-            <!-- 景點卡片 -->
-            <div class="bg-white p-4 rounded-2xl card-shadow border border-gray-100">
-                <div class="flex justify-between items-start">
-                    <span class="text-xs font-bold text-slate-400">14:02 - 18:00</span>
-                    <span class="tag-buy text-[10px] px-2 py-0.5 rounded-full font-bold">必買伴手禮</span>
+            <!-- 交通卡 -->
+            <div class="card p-4 border-l-4 border-slate-400">
+                <div class="flex justify-between text-xs text-gray-400 mb-1">
+                    <span>06:00 - 07:10</span><span>台北車站捷運 → 桃園機場</span>
                 </div>
-                <h3 class="text-lg font-bold mt-1 text-slate-800 font-bold">🛍️ 臨空城 Outlet</h3>
-                <p class="text-sm text-slate-500 mt-1">營業：10:00–20:00</p>
-                <div class="mt-3 p-2 bg-gray-50 rounded-lg text-sm text-slate-600">
-                    攻略：行李可寄存在車站置物櫃。推薦 <strong>西松屋</strong> 與 <strong>LEVI'S</strong>。
+                <h3 class="font-bold text-gray-800">🚗 自宅出發 & 報到</h3>
+                <p class="text-xs text-gray-600 mt-2">搭乘計程車前往北捷機捷。06:30 班次預計 07:06 抵達 T1。</p>
+            </div>
+
+            <!-- 景點卡 -->
+            <div class="card p-4">
+                <div class="flex justify-between items-start mb-2">
+                    <span class="text-xs text-slate-400">14:02 - 18:00</span>
+                    <div class="flex gap-1">
+                        <span class="tag-buy text-[10px] px-2 py-0.5 rounded-full font-bold">必買伴手禮</span>
+                    </div>
                 </div>
-                <a href="https://maps.app.goo.gl/VqjY6X3iU6Y8GvVn7" class="mt-4 flex items-center justify-center w-full py-2 bg-slate-800 text-white rounded-xl text-sm font-bold">
-                    <i class="fa-solid fa-location-arrow mr-2"></i> 開始導覽
+                <h3 class="font-bold text-gray-800 text-lg">🛍️ 臨空城 Outlet</h3>
+                <p class="text-xs text-gray-500 mb-3">Rinku Premium Outlets</p>
+                <div class="text-sm bg-orange-50 p-2 rounded-lg text-orange-800 mb-4">
+                    <strong>導遊攻略：</strong> 西松屋 (育兒用品)、Coleman、Onitsuka Tiger。行李可寄存在車站置物櫃。
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=Rinku+Premium+Outlets" class="w-full flex justify-center items-center py-2 bg-slate-800 text-white rounded-xl text-sm font-medium">
+                    <i class="fa-solid fa-location-arrow mr-2 text-xs"></i> 導航至臨空城
                 </a>
             </div>
 
-            <!-- 餐廳卡片 -->
-            <div class="bg-white p-4 rounded-2xl card-shadow border border-gray-100">
-                <div class="flex justify-between items-start">
-                    <span class="text-xs font-bold text-slate-400">19:30</span>
+            <!-- 餐廳卡 -->
+            <div class="card p-4 border-l-4 border-red-500">
+                <div class="flex justify-between items-start mb-2">
+                    <span class="text-xs text-slate-400">19:30</span>
                     <span class="tag-eat text-[10px] px-2 py-0.5 rounded-full font-bold">必吃美食</span>
                 </div>
-                <h3 class="text-lg font-bold mt-1 text-slate-800 font-bold">🍣 大起水產 迴轉壽司</h3>
-                <p class="text-sm text-slate-500 mt-1">營業：11:00–22:00</p>
-                <div class="mt-2 flex flex-wrap gap-1">
-                    <span class="text-[10px] border border-red-200 text-red-500 px-2 rounded">必點：本鮪魚三味</span>
-                    <span class="text-[10px] border border-red-200 text-red-500 px-2 rounded">必點：炙燒干貝</span>
+                <h3 class="font-bold text-gray-800">🍣 晚餐：大起水產 迴轉壽司</h3>
+                <p class="text-xs text-gray-500 mb-2 font-bold">營業時間：11:00-22:00</p>
+                <div class="text-sm text-gray-600">
+                    <strong>必點菜單：</strong> <span class="font-bold text-red-600">本鮪魚三味</span>、炙燒大干貝。
                 </div>
-                <a href="https://maps.app.goo.gl/9Z4Y7T8S4M6f7v8B6" class="mt-4 flex items-center justify-center w-full py-2 border border-slate-200 text-slate-700 rounded-xl text-sm font-bold">
+                <a href="https://www.google.com/maps/search/?api=1&query=Daiki+Suisan+Dotonbori" class="mt-4 w-full flex justify-center items-center py-2 border border-slate-200 text-slate-600 rounded-xl text-sm font-medium">
                     <i class="fa-solid fa-map-pin mr-2 text-red-500"></i> 地點定位
                 </a>
             </div>
+            
+            <!-- 宵夜 -->
+            <div class="card p-4 border-l-4 border-red-800 bg-red-50/30">
+                <h3 class="font-bold text-gray-800 text-sm">🍜 宵夜：一蘭拉麵 (別館/難波店)</h3>
+                <p class="text-xs text-gray-500 mt-1">24小時營業。必喝：抹茶杏仁豆腐。</p>
+            </div>
         </div>
 
-        <!-- DAY 2 -->
+        <!-- --- DAY 2 --- -->
         <div id="day2" class="tab-content space-y-4">
-            <div class="flex items-center justify-between bg-emerald-50 p-3 rounded-xl border border-emerald-100">
-                <div><span class="text-2xl">❄️</span> <span class="font-bold text-emerald-800">D2 海之京都</span></div>
-                <div class="text-right text-xs text-emerald-600">1°C / 6°C<br>美山可能積雪</div>
+            <div class="flex items-center space-x-2 text-red-800 font-bold mb-2">
+                <i class="fa-solid fa-calendar-day"></i><span>DAY 2：海之京都一日遊</span>
             </div>
-            
-            <div class="bg-white p-4 rounded-2xl card-shadow">
-                <p class="text-xs font-bold text-slate-400">07:00 集合</p>
-                <h3 class="text-lg font-bold text-slate-800 font-bold">🚩 蟹道樂道頓堀東店</h3>
-                <p class="text-sm text-red-500 font-bold mt-1">代號：KKD12345 (KKday 一日遊)</p>
-                <a href="https://maps.app.goo.gl/u7Y7S9p7Z2jY5GvV7" class="mt-3 block text-center py-2 bg-slate-800 text-white rounded-xl text-sm italic">導航至集合點</a>
+            <div class="bg-emerald-50 p-3 rounded-xl flex justify-between items-center text-sm border border-emerald-100">
+                <span>📍 伊根 / 天橋立 / 美山</span>
+                <span class="font-bold text-emerald-800">積雪機率高 1°C <i class="fa-solid fa-snowflake"></i></span>
             </div>
-
-            <div class="bg-white p-4 rounded-2xl card-shadow">
-                <span class="tag-must text-[10px] px-2 py-0.5 rounded-full font-bold">攻略提醒</span>
-                <h3 class="text-lg font-bold text-slate-800 mt-1 font-bold">🛶 伊根灣遊覽船</h3>
-                <p class="text-sm text-slate-600 mt-2">故事：伊根是日本最美村莊，舟屋是獨特的濱海建築。船上可買<strong>蝦味先</strong>餵海鷗。</p>
+            <div class="card p-4">
+                <div class="flex justify-between mb-2"><span class="tag-code text-[10px] px-2 py-0.5 rounded-full font-bold font-bold">重要預約：KKday一日遊</span></div>
+                <h3 class="font-bold text-gray-800">🚩 07:00 蟹道樂道頓堀東店集合</h3>
+                <p class="text-xs text-gray-500 mt-2">尋找持 KKday 牌子的服務人員。逾時不候！</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=Kani+Doraku+Dotonbori+East" class="mt-3 block text-center py-2 bg-slate-800 text-white rounded-xl text-sm">導航至集合點</a>
+            </div>
+            <div class="card p-4">
+                <span class="tag-must text-[10px] px-2 py-0.5 rounded-full font-bold">景點故事</span>
+                <h3 class="font-bold text-gray-800 mt-2">🛶 伊根灣舟屋</h3>
+                <p class="text-xs text-gray-600 mt-2 leading-relaxed"><strong>導遊攻略：</strong> 船上可買「蝦味先」餵海鷗。冬天的舟屋配上殘雪如水墨畫般美麗。</p>
+            </div>
+            <div class="card p-4">
+                <span class="tag-eat text-[10px] px-2 py-0.5 rounded-full font-bold">午餐自理推薦</span>
+                <h3 class="font-bold text-gray-800 mt-2">🍱 天橋立商圈</h3>
+                <p class="text-xs text-gray-600 mt-2"><strong>必吃美食：</strong> 蛤蜊丼 (あさり丼)、智惠之餅。</p>
             </div>
         </div>
 
-        <!-- DAY 3 -->
+        <!-- --- DAY 3 --- -->
         <div id="day3" class="tab-content space-y-4">
-            <div class="flex items-center justify-between bg-indigo-50 p-3 rounded-xl border border-indigo-100">
-                <div><span class="text-2xl">☔</span> <span class="font-bold text-indigo-800">D3 洛北點燈</span></div>
-                <div class="text-right text-xs text-indigo-600">2°C / 8°C<br>注意山區保暖</div>
+            <div class="flex items-center space-x-2 text-red-800 font-bold mb-2">
+                <i class="fa-solid fa-calendar-day"></i><span>DAY 3：京都洛北 貴船神社</span>
             </div>
-
-            <!-- 交通詳解卡片 -->
-            <div class="bg-white p-4 rounded-2xl card-shadow border-l-4 border-indigo-500">
-                <h3 class="font-bold text-slate-800 mb-2 font-bold"><i class="fa-solid fa-train mr-2 text-indigo-500"></i> 回程詳細步驟 (17:45起)</h3>
-                <ul class="text-sm space-y-3 text-slate-600">
-                    <li class="flex gap-2"><span class="font-bold text-indigo-500">1.</span> [巴士] 貴船搭 33 路 → 貴船口站</li>
-                    <li class="flex gap-2"><span class="font-bold text-indigo-500">2.</span> [電車] 貴船口搭 叡山電車 → 出町柳站</li>
-                    <li class="flex gap-2"><span class="font-bold text-indigo-500">3.</span> [電車] 出町柳搭 京阪本線 → 祇園四條</li>
-                    <li class="flex gap-2"><span class="font-bold text-indigo-500">4.</span> [步行] 走過四條大橋 → 阪急河原町站</li>
-                    <li class="flex gap-2"><span class="font-bold text-indigo-500">5.</span> [特急] 搭 阪急京都線 → 大阪梅田</li>
-                </ul>
+            <div class="bg-indigo-50 p-3 rounded-xl flex justify-between items-center text-sm border border-indigo-100 font-bold">
+                <span>📍 貴船神社 / 梅田</span>
+                <span class="font-bold text-indigo-800">雨或濕雪 2°C <i class="fa-solid fa-cloud-showers-heavy"></i></span>
             </div>
-
-            <div class="bg-white p-4 rounded-2xl card-shadow">
-                <div class="flex justify-between items-start">
-                    <span class="text-xs font-bold text-slate-400">20:15</span>
-                    <span class="tag-eat text-[10px] px-2 py-0.5 rounded-full font-bold">必吃燒肉</span>
-                </div>
-                <h3 class="text-lg font-bold mt-1 text-slate-800 font-bold font-bold">🥩 燒肉力丸 梅田東通店</h3>
-                <div class="mt-2 flex flex-wrap gap-1">
-                    <span class="text-[10px] border border-red-200 text-red-500 px-2 rounded font-bold">必點：厚切牛舌</span>
-                </div>
-                <a href="https://maps.app.goo.gl/u7Y7S9p7Z2jY5GvV7" class="mt-4 flex items-center justify-center w-full py-2 bg-slate-800 text-white rounded-xl text-sm font-bold">導航</a>
-            </div>
-        </div>
-
-        <!-- DAY 4 & 5 分頁內容 (省略重複結構，GitHub上可補齊) -->
-        <div id="day4" class="tab-content space-y-4 text-center py-20 text-slate-400 font-bold">D4 行程載入中...</div>
-        <div id="day5" class="tab-content space-y-4 text-center py-20 text-slate-400 font-bold">D5 行程載入中...</div>
-
-        <!-- 工具箱 TAB -->
-        <div id="tools" class="tab-content space-y-4">
-            <h2 class="text-lg font-bold text-slate-800 font-bold">🛠️ 旅遊工具箱</h2>
             
-            <div class="bg-white p-4 rounded-2xl card-shadow space-y-4">
-                <div class="border-b pb-2 italic text-slate-400 text-xs">住宿資訊</div>
-                <p class="text-sm font-bold">D1: GRIDS PREMIUM Namba</p>
-                <p class="text-sm font-bold border-t pt-2">D2-D5: Hotel RESPIRE OSAKA</p>
+            <!-- 回程交通詳解 -->
+            <div class="card p-4 border-l-4 border-indigo-500">
+                <h3 class="font-bold text-gray-800 mb-3"><i class="fa-solid fa-train text-indigo-500 mr-2 font-bold"></i> 回程交通詳細步驟</h3>
+                <div class="space-y-3 text-xs">
+                    <div class="flex gap-2">
+                        <span class="bg-indigo-500 text-white w-5 h-5 flex items-center justify-center rounded-full shrink-0">1</span>
+                        <p><strong>17:45</strong> 從「貴船」搭乘 <strong>京都巴士 33路</strong> 前往「貴船口」。</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <span class="bg-indigo-500 text-white w-5 h-5 flex items-center justify-center rounded-full shrink-0">2</span>
+                        <p><strong>18:00</strong> 搭乘 <strong>叡山電車</strong> 返回「出町柳」。</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <span class="bg-indigo-500 text-white w-5 h-5 flex items-center justify-center rounded-full shrink-0">3</span>
+                        <p><strong>18:40</strong> 轉乘 <strong>京阪電車</strong> 前往「祇園四條」。</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <span class="bg-indigo-500 text-white w-5 h-5 flex items-center justify-center rounded-full shrink-0">4</span>
+                        <p>步行過四條大橋前往 <strong>阪急河原町</strong> 搭乘特急返回「大阪梅田」。</p>
+                    </div>
+                </div>
             </div>
 
-            <div class="bg-white p-4 rounded-2xl card-shadow">
-                <div class="border-b pb-2 italic text-slate-400 text-xs">預算管理 (JPY)</div>
-                <div class="flex justify-between py-2 text-sm"><span>交通儲值</span> <span>10,000</span></div>
-                <div class="flex justify-between py-2 text-sm border-t font-bold text-indigo-600"><span>總計預估</span> <span>¥40,000</span></div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-2">
-                <a href="tel:110" class="bg-red-50 text-red-600 p-4 rounded-2xl text-center font-bold">🚑 警察 110</a>
-                <a href="tel:119" class="bg-red-50 text-red-600 p-4 rounded-2xl text-center font-bold">🚒 急救 119</a>
+            <div class="card p-4 border-l-4 border-red-500">
+                <span class="tag-eat text-[10px] px-2 py-0.5 rounded-full font-bold">必吃燒肉</span>
+                <h3 class="font-bold text-gray-800 mt-2">🥩 晚餐：燒肉力丸 梅田東通店</h3>
+                <p class="text-xs text-gray-500 mt-1">營業時間：16:00-23:00</p>
+                <div class="text-sm text-gray-600 mt-2">
+                    <strong>必點菜單：</strong> <span class="font-bold text-red-600">厚切牛舌、上等橫膈膜</span>。記得事先確認是否需訂位。
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=Yakiniku+Rikimaru+Umeda" class="mt-4 w-full flex justify-center items-center py-2 bg-slate-800 text-white rounded-xl text-sm font-medium">
+                    <i class="fa-solid fa-location-arrow mr-2"></i> 導航至燒肉力丸
+                </a>
             </div>
         </div>
 
-    </main>
+        <!-- --- DAY 4 --- -->
+        <div id="day4" class="tab-content space-y-4">
+            <div class="flex items-center space-x-2 text-red-800 font-bold mb-2 font-bold">
+                <i class="fa-solid fa-calendar-day"></i><span>DAY 4：勝尾寺 & 姬路城</span>
+            </div>
+            <div class="card p-4">
+                <span class="tag-must text-[10px] px-2 py-0.5 rounded-full font-bold">必買 & 故事</span>
+                <h3 class="font-bold text-gray-800 mt-2">👹 勝尾寺 (勝利達摩)</h3>
+                <p class="text-xs text-gray-600 mt-2 leading-relaxed"><strong>導遊攻略：</strong> 買一個「不倒翁達摩籤」，祈求勝運。<strong>必買伴手禮：</strong> 達摩造型餅乾。</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=Katsuo-ji" class="mt-3 block text-center py-2 bg-slate-800 text-white rounded-xl text-sm font-bold font-bold font-bold">導航至勝尾寺</a>
+            </div>
+            <div class="card p-4 border-l-4 border-red-500">
+                <span class="tag-eat text-[10px] px-2 py-0.5 rounded-full font-bold">必吃美食</span>
+                <h3 class="font-bold text-gray-800 mt-2">🥞 晚餐：福太郎 大阪燒</h3>
+                <p class="text-xs text-gray-600 mt-1 font-bold"><strong>必吃：</strong> 蔥燒 (Negiyaki)。</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=Fukutaro+Umeda" class="mt-3 block text-center py-2 border border-slate-200 text-slate-600 rounded-xl text-sm">地點定位</a>
+            </div>
+        </div>
 
-    <!-- Bottom Navigation -->
-    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-2 py-2 flex justify-around items-center z-50">
-        <button onclick="showTab('day1')" class="nav-btn flex flex-col items-center p-2 nav-active" id="btn-day1">
-            <span class="text-xs font-bold font-bold">D1</span>
+        <!-- --- DAY 5 --- -->
+        <div id="day5" class="tab-content space-y-4">
+            <div class="flex items-center space-x-2 text-red-800 font-bold mb-2">
+                <i class="fa-solid fa-plane-departure"></i><span>DAY 5：賦歸 關西機場</span>
+            </div>
+            <div class="card p-4 border-l-4 border-blue-500">
+                <h3 class="font-bold text-gray-800">🚐 KKday 機場接送</h3>
+                <p class="text-xs text-blue-600 font-bold mt-1 font-bold font-bold font-bold font-bold">預約代號：$1389 訂單</p>
+                <p class="text-xs text-gray-500 mt-2 italic font-bold">建議提前 3 小時抵達機場報到。</p>
+            </div>
+            <div class="card p-4">
+                <span class="tag-buy text-[10px] px-2 py-0.5 rounded-full font-bold">最後補貨</span>
+                <h3 class="font-bold text-gray-800 mt-2 font-bold">🛫 機場免稅店 必買清單</h3>
+                <div class="text-xs text-gray-600 mt-2 space-y-1">
+                    <p>• LeTAO 起司蛋糕</p>
+                    <p>• Royce 生巧克力</p>
+                    <p>• 呼吸巧克力 (大阪限定)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- --- UTILS / 工具箱 --- -->
+        <div id="utils" class="tab-content space-y-4">
+            <h2 class="text-xl font-bold text-gray-800 mb-4 japanese-border pb-2">🛠️ 旅遊工具箱</h2>
+            
+            <!-- 航班 & 住宿 -->
+            <div class="grid grid-cols-2 gap-3 font-bold font-bold">
+                <div class="card p-4 bg-slate-50 border border-slate-100">
+                    <p class="text-[10px] text-gray-400 font-bold">航班 (去程)</p>
+                    <p class="font-bold text-sm">星宇 JX822</p>
+                    <p class="text-xs text-gray-600">09:20 - 12:50</p>
+                </div>
+                <div class="card p-4 bg-slate-50 border border-slate-100 font-bold font-bold">
+                    <p class="text-[10px] text-gray-400 font-bold font-bold font-bold font-bold">航班 (回程)</p>
+                    <p class="font-bold text-sm font-bold font-bold">星宇 JX821</p>
+                    <p class="text-xs text-gray-600 font-bold">12:20 - 14:35</p>
+                </div>
+            </div>
+
+            <div class="card p-4">
+                <p class="text-[10px] text-gray-400 mb-2 font-bold">🏨 住宿資訊</p>
+                <div class="space-y-3 font-bold font-bold font-bold font-bold">
+                    <div>
+                        <p class="text-sm font-bold">GRIDS PREMIUM HOTEL OSAKA</p>
+                        <p class="text-[10px] text-gray-500">D1: 難波站步行5分</p>
+                    </div>
+                    <div class="border-t pt-2">
+                        <p class="text-sm font-bold">Hotel Hankyu RESPIRE OSAKA</p>
+                        <p class="text-[10px] text-gray-500">D2-D5: 梅田站直結</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 緊急電話 -->
+            <div class="card p-4 bg-red-50 border border-red-100">
+                <p class="text-[10px] text-red-800 font-bold mb-2">🆘 緊急聯絡</p>
+                <div class="flex justify-between text-sm font-bold">
+                    <a href="tel:110" class="text-red-600">警局: 110</a>
+                    <a href="tel:119" class="text-red-600">急救/火警: 119</a>
+                </div>
+                <p class="text-[10px] text-red-500 mt-2 font-bold">駐日辦事處 (大阪): +81-6-6443-8481</p>
+            </div>
+
+            <!-- 預算表 -->
+            <div class="card p-4">
+                <p class="text-[10px] text-gray-400 mb-2 font-bold font-bold">💰 預算/記帳概覽</p>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between border-b pb-1 font-bold"><span>項目</span><span>金額 (NTD)</span></div>
+                    <div class="flex justify-between text-gray-600"><span>機場接送 (KKday)</span><span>$1,389</span></div>
+                    <div class="flex justify-between text-gray-600"><span>天橋立一日遊</span><span>$2,500</span></div>
+                    <div class="flex justify-between text-gray-800 font-bold border-t pt-1 font-bold"><span>累計總額</span><span>$3,889+</span></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 flex justify-around items-center px-2 py-3 z-50">
+        <button onclick="showTab('day1')" class="nav-item flex flex-col items-center nav-active" id="nav-day1">
+            <i class="fa-solid fa-u font-bold text-lg mb-1">1</i>
+            <span class="text-[10px]">Day 1</span>
         </button>
-        <button onclick="showTab('day2')" class="nav-btn flex flex-col items-center p-2 text-slate-400" id="btn-day2">
-            <span class="text-xs font-bold font-bold">D2</span>
+        <button onclick="showTab('day2')" class="nav-item flex flex-col items-center text-gray-300" id="nav-day2">
+            <i class="fa-solid fa-u font-bold text-lg mb-1">2</i>
+            <span class="text-[10px]">Day 2</span>
         </button>
-        <button onclick="showTab('day3')" class="nav-btn flex flex-col items-center p-2 text-slate-400" id="btn-day3">
-            <span class="text-xs font-bold font-bold">D3</span>
+        <button onclick="showTab('day3')" class="nav-item flex flex-col items-center text-gray-300" id="nav-day3">
+            <i class="fa-solid fa-u font-bold text-lg mb-1">3</i>
+            <span class="text-[10px]">Day 3</span>
         </button>
-        <button onclick="showTab('day4')" class="nav-btn flex flex-col items-center p-2 text-slate-400" id="btn-day4">
-            <span class="text-xs font-bold font-bold">D4</span>
+        <button onclick="showTab('day4')" class="nav-item flex flex-col items-center text-gray-300" id="nav-day4">
+            <i class="fa-solid fa-u font-bold text-lg mb-1">4</i>
+            <span class="text-[10px]">Day 4</span>
         </button>
-        <button onclick="showTab('day5')" class="nav-btn flex flex-col items-center p-2 text-slate-400" id="btn-day5">
-            <span class="text-xs font-bold font-bold">D5</span>
+        <button onclick="showTab('day5')" class="nav-item flex flex-col items-center text-gray-300" id="nav-day5">
+            <i class="fa-solid fa-u font-bold text-lg mb-1">5</i>
+            <span class="text-[10px]">Day 5</span>
         </button>
-        <button onclick="showTab('tools')" class="nav-btn flex flex-col items-center p-2 text-slate-400" id="btn-tools">
-            <i class="fa-solid fa-briefcase text-sm"></i>
+        <button onclick="showTab('utils')" class="nav-item flex flex-col items-center text-gray-300" id="nav-utils">
+            <i class="fa-solid fa-briefcase text-lg mb-1"></i>
+            <span class="text-[10px]">工具</span>
         </button>
     </nav>
 
     <script>
         function showTab(tabId) {
-            // Hide all tabs
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            // Show selected tab
+            // 切換內容
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
-            
-            // Update nav styles
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('nav-active');
-                btn.classList.add('text-slate-400');
-            });
-            document.getElementById('btn-' + tabId).classList.add('nav-active');
-            document.getElementById('btn-' + tabId).classList.remove('text-slate-400');
 
-            // Scroll to top
-            window.scrollTo(0,0);
+            // 切換導航圖示顏色
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.classList.add('text-gray-300');
+                item.classList.remove('nav-active');
+            });
+            document.getElementById('nav-' + tabId).classList.remove('text-gray-300');
+            document.getElementById('nav-' + tabId).classList.add('nav-active');
+
+            // 回到頂部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
 </body>
