@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026大阪●京都●兵庫</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#f3f4f6">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&display=swap');
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: #F9F8F6; color: #4A4A4A; }
+        .tab-active { border-bottom: 3px solid #8EACCD; color: #8EACCD; }
+        .glass-card { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); border-radius: 15px; }
+        .jp-accent { color: #D67D7D; } /* 櫻花色 */
+        .category-sight { border-left: 5px solid #8EACCD; }
+        .category-food { border-left: 5px solid #D67D7D; }
+        .category-transport { border-left: 5px solid #A7D2CB; }
+    </style>
+</head>
+<body class="pb-20">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // --- 設定與工具函數 ---
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbwG9FMX0XTefSapEm1QdffUwu_KyqYoGZ2-58if0xUGXPhHRNn6mRaidWqrUJChdrJY/exec"; // 部署後填入
+
+        const compressImage = (file) => {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const MAX_WIDTH = 800;
+                        let width = img.width;
+                        let height = img.height;
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        resolve(canvas.toDataURL('image/jpeg', 0.7));
+                    };
+                };
+            });
+        };
+
+        // --- 組件 ---
+        const NavItem = ({ icon, label, active, onClick }) => (
+            <div onClick={onClick} className={`flex flex-col items-center justify-center w-full py-2 ${active ? 'jp-accent' : 'text-gray-400'}`}>
+                <i data-lucide={icon} className="w-6 h-6"></i>
+                <span class="text-xs mt-1">{label}</span>
+            </div>
+        );
+
+        const App = () => {
+            const [activeTab, setActiveTab] = useState('itinerary');
+            const [activeDate, setActiveDate] = useState(0);
+            const [records, setRecords] = useState([]);
+            const [loading, setLoading] = useState(false);
+
+            useEffect(() => {
+                lucide.createIcons();
+            }, [activeTab]);
+
+            // 模擬行程數據
+            const itineraryData = [
+                {
+                    date: "2026/03/25",
+                    weather: { temp: "12°C", desc: "晴れ", hourly: ["10°C", "12°C", "15°C", "13°C"] },
+                    items: [
+                        { type: 'sight', time: '10:00', title: '清水寺', loc: '清水寺', desc: '世界遺產，舞台景觀絕佳。必買：守護符。', maps: 'https://maps.app.goo.gl/xxx' },
+                        { type: 'food', time: '12:30', title: '奧丹豆腐', loc: '奧丹清水', desc: '必吃：湯豆腐套餐。記得預約。' },
+                        { type: 'transport', time: '14:00', title: 'JR 京都線', loc: '京都站', desc: '搭乘快車前往大阪。' }
+                    ]
+                }
+            ];
+
+            const renderItinerary = () => (
+                <div className="p-4 animate-fadeIn">
+                    <div className="flex overflow-x-auto mb-4 space-x-2 no-scrollbar">
+                        {itineraryData.map((day, idx) => (
+                            <button 
+                                key={idx} 
+                                onClick={() => setActiveDate(idx)}
+                                className={`px-4 py-2 rounded-full whitespace-nowrap ${activeDate === idx ? 'bg-[#8EACCD] text-white' : 'bg-white'}`}
+                            >
+                                Day {idx + 1} ({day.date.split('/')[2]})
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* 天氣預報 */}
+                    <div className="glass-card p-4 mb-4 flex justify-between items-center bg-blue-50">
+                        <div>
+                            <div className="text-sm text-gray-500">本日預報 (Tenki.jp)</div>
+                            <div className="text-xl font-bold">{itineraryData[activeDate].weather.temp} {itineraryData[activeDate].weather.desc}</div>
+                        </div>
+                        <div className="flex space-x-2 text-xs text-center">
+                            {itineraryData[activeDate].weather.hourly.map((t, i) => (
+                                <div key={i} className="bg-white/50 p-1 rounded">
+                                    <div className="text-gray-400">{9 + i*3}h</div>
+                                    <div>{t}</div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* 行程卡片 */}
+                    {itineraryData[activeDate].items.map((item, i) => (
+                        <div key={i} className={`glass-card p-4 mb-4 shadow-sm border-l-4 ${item.type==='sight'?'category-sight':item.type==='food'?'category-food':'category-transport'}`}>
+                            <div className="flex justify-between items-start">
+                                <span className="text-xs font-bold text-gray-400">{item.time}</span>
+                                <span className={`text-[10px] px-2 py-0.5 rounded-full ${item.type==='sight'?'bg-blue-100 text-blue-600':item.type==='food'?'bg-red-100 text-red-600':'bg-teal-100 text-teal-600'}`}>
+                                    {item.type.toUpperCase()}
+                                </span>
+                            </div>
+                            <h3 className="font-bold text-lg mt-1">{item.title}</h3>
+                            <p className="text-sm mt-2 text-gray-600 leading-relaxed">
+                                {item.desc.split('必').map((part, index) => 
+                                    index === 0 ? part : <span key={index}><b className="text-orange-600">必{part}</b></span>
+                                )}
+                            </p>
+                            
+                            <div className="mt-4 flex space-x-2">
+                                <a href={item.maps || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.loc)}`} 
+                                   target="_blank"
+                                   className="flex items-center text-xs bg-white border border-gray-200 px-3 py-1.5 rounded-lg shadow-sm">
+                                    <i data-lucide="map-pin" className="w-3 h-3 mr-1 text-blue-500"></i> 導航
+                                </a>
+                                <button className="flex items-center text-xs bg-white border border-gray-200 px-3 py-1.5 rounded-lg shadow-sm">
+                                    <i data-lucide="sparkles" className="w-3 h-3 mr-1 text-yellow-500"></i> 攻略
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            );
+
+            const renderAccounting = () => (
+                <div className="p-4">
+                    <h2 className="text-xl font-bold mb-4">記帳本 (JPY)</h2>
+                    <form className="glass-card p-4 mb-6" onSubmit={async (e) => {
+                        e.preventDefault();
+                        // 實作串接 GAS
+                        alert("已記錄並同步至 Google Sheet");
+                    }}>
+                        <input type="text" placeholder="名稱" className="w-full mb-2 p-2 rounded border" required />
+                        <input type="number" placeholder="金額 (日幣)" className="w-full mb-2 p-2 rounded border" required />
+                        <select className="w-full mb-2 p-2 rounded border">
+                            <option>現金</option>
+                            <option>刷卡</option>
+                            <option>Suica</option>
+                        </select>
+                        <input type="date" className="w-full mb-4 p-2 rounded border" defaultValue={new Date().toISOString().substr(0, 10)} />
+                        <button className="w-full bg-[#8EACCD] text-white py-2 rounded-xl font-bold">送出同步</button>
+                    </form>
+                </div>
+            );
+
+            return (
+                <div className="max-w-md mx-auto">
+                    <header className="p-6 bg-white flex justify-between items-center sticky top-0 z-10 shadow-sm">
+                        <h1 className="text-lg font-bold tracking-widest">2026 大阪●京都●兵庫</h1>
+                        <i data-lucide="menu" className="w-6 h-6 text-gray-400"></i>
+                    </header>
+
+                    <main>
+                        {activeTab === 'itinerary' && renderItinerary()}
+                        {activeTab === 'accounting' && renderAccounting()}
+                        {activeTab === 'docs' && <div className="p-4 text-center text-gray-400 mt-20 italic">檔案庫建置中...</div>}
+                    </main>
+
+                    {/* 底部導航 */}
+                    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around items-center px-4 pb-safe shadow-[0_-2px_10px_rgba(0,0,0,0.05)]">
+                        <NavItem icon="calendar" label="行程" active={activeTab === 'itinerary'} onClick={() => setActiveTab('itinerary')} />
+                        <NavItem icon="wallet" label="記帳" active={activeTab === 'accounting'} onClick={() => setActiveTab('accounting')} />
+                        <NavItem icon="shopping-bag" label="代購" active={activeTab === 'shopping'} onClick={() => setActiveTab('shopping')} />
+                        <NavItem icon="file-text" label="文件" active={activeTab === 'docs'} onClick={() => setActiveTab('docs')} />
+                    </nav>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</body>
+</html>

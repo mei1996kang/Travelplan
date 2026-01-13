@@ -1,0 +1,15 @@
+{
+  "name": "2026 Japan Trip",
+  "short_name": "Japan2026",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#F9F8F6",
+  "theme_color": "#8EACCD",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/197/197604.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
